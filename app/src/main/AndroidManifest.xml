@@ -13,7 +13,10 @@
         android:theme="@style/Theme.TMSXMLProject"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".RecyclerViewHostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".lv_arrayAdapter.ListViewActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
