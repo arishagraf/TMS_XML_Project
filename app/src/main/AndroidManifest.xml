@@ -13,7 +13,13 @@
         android:theme="@style/Theme.TMSXMLProject"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".task_3.TaskThreeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".task_2.TaskTwoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".task_1.TaskOneActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

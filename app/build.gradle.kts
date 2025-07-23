@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt") // to use kapt
 }
 
 android {
@@ -33,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -42,7 +47,26 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // viewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2")
+
+    // Lifecycle Scope
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.2")
+
+    // Activity KTX (for by viewModels())
+    implementation("androidx.activity:activity-ktx:1.10.1")
+
+    // Moxy
+    implementation("com.github.moxy-community:moxy:2.2.2")
+    implementation("com.github.moxy-community:moxy-android:2.2.2")
+    implementation("com.github.moxy-community:moxy-androidx:2.2.2")
+
+    // Moxy Kotlin extensions (if you're using Kotlin)
+    kapt("com.github.moxy-community:moxy-compiler:2.2.2")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }
