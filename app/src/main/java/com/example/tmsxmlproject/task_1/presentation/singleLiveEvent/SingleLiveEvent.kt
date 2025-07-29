@@ -1,4 +1,4 @@
-package com.example.tmsxmlproject.task_1.singleLiveEvent
+package com.example.tmsxmlproject.task_1.presentation.singleLiveEvent
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

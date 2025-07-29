@@ -5,7 +5,7 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".task_1.TaskOneActivity"
+    tools:context=".task_1.presentation.TaskOneActivity"
     android:padding="16dp">
 
     <TextView

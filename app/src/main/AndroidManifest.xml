@@ -19,7 +19,7 @@
             android:name=".task_2.TaskTwoActivity"
             android:exported="false" />
         <activity
-            android:name=".task_1.TaskOneActivity"
+            android:name=".task_1.presentation.TaskOneActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
