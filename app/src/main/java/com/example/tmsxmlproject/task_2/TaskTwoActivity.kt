@@ -1,14 +1,14 @@
 package com.example.tmsxmlproject.task_2
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmsxmlproject.databinding.ActivityTaskTwoBinding
+import com.example.tmsxmlproject.showToast
+import com.example.tmsxmlproject.startActivity
 import com.example.tmsxmlproject.task_3.TaskThreeActivity
 
 class TaskTwoActivity : AppCompatActivity() {
@@ -37,18 +37,11 @@ class TaskTwoActivity : AppCompatActivity() {
 
                     is UserViewState.NavigateNext -> { //this will also cause rotation issues,
                         //because StateFlow emits the latest value to new subscribers.
-                        startActivity(
-                            Intent(
-                                this@TaskTwoActivity,
-                                TaskThreeActivity::class.java
-                            )
-                        )
+                        startActivity(TaskThreeActivity())
                     }
                     // state.userViewState.? - no sideeffect available in states
                 }
-                Toast.makeText(
-                    this@TaskTwoActivity, state.sideEffectMessage, Toast.LENGTH_SHORT
-                ).show()
+                showToast(state.sideEffectMessage)
             }
         }
 

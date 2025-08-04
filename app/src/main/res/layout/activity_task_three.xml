@@ -8,6 +8,11 @@
     android:layout_height="match_parent"
     tools:context=".task_3.TaskThreeActivity">
 
+    <include
+        layout="@layout/item_reusable"
+        android:layout_width="match_parent"
+        android:layout_height="50.dp" />
+
     <TextView
         android:id="@+id/timerText"
         android:text="Осталось: 10 сек"

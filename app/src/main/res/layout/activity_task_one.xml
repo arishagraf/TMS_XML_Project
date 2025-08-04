@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".task_1.presentation.TaskOneActivity"
-    android:padding="16dp">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".task_1.presentation.TaskOneActivity">
 
     <TextView
         android:id="@+id/counterText"
-        android:text="Нажатий: 0"
-        android:textSize="24sp"
-        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Нажатий: 0"
+        android:textSize="24sp" />
+
+    <include
+        layout="@layout/item_reusable"
+        android:layout_width="match_parent"
+        android:layout_height="50.dp" />
 
     <Button
         android:id="@+id/incrementButton"
-        android:text="Нажми меня"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Нажми меня" />
 
     <Button
         android:id="@+id/goToNextExample"
-        android:text="Перейти к MVI"
-        android:layout_marginTop="20.dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20.dp"
+        android:text="Перейти к MVI" />
 </LinearLayout>

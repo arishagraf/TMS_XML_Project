@@ -5,6 +5,10 @@ class GetItemListUseCase(
 ) {
 
     operator fun invoke(): List<ItemModel> {
-        return repository.getItems()
+        val items = repository.getItems()
+        val sortedList = sort(items)
+        return sortedList
     }
+
+    private fun sort(items: List<ItemModel>) = items.toSet().toList()
 }

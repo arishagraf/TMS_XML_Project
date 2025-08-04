@@ -26,6 +26,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filterEditText" />
 
+    <include
+        layout="@layout/item_reusable"
+        android:layout_width="match_parent"
+        android:layout_height="50.dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userRecyclerView"
         android:layout_width="match_parent"
@@ -34,6 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filterButton" />
+
 
     <Button
         android:id="@+id/goToNextExample"
