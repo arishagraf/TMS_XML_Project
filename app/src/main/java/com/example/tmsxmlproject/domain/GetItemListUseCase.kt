@@ -4,7 +4,7 @@ class GetItemListUseCase(
     private val repository: Repository,
 ) {
 
-    operator fun invoke(): List<ItemModel> {
+    suspend operator fun invoke(): List<ItemModel> {
         return repository.getItems()
     }
 }

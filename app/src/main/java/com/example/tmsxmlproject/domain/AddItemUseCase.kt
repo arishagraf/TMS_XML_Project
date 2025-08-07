@@ -4,7 +4,7 @@ class AddItemUseCase(
     private val repository: Repository
 ) {
 
-    operator fun invoke(text: String) {
+    suspend operator fun invoke(text: String) {
         repository.addItem(item = ItemModel(text = text))
     }
 }
