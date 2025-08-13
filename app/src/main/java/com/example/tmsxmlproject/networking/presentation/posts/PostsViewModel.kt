@@ -1,4 +1,4 @@
-package com.example.tmsxmlproject.networking.presentation
+package com.example.tmsxmlproject.networking.presentation.posts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

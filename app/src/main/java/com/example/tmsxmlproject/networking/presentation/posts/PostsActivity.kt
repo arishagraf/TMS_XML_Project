@@ -1,4 +1,4 @@
-package com.example.tmsxmlproject.networking.presentation
+package com.example.tmsxmlproject.networking.presentation.posts
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,6 @@ import com.example.tmsxmlproject.networking.data.PostRepositoryImpl
 import com.example.tmsxmlproject.networking.domain.DeletePostByIdUseCase
 import com.example.tmsxmlproject.networking.domain.EditPostUseCase
 import com.example.tmsxmlproject.networking.domain.GetPostsUseCase
-import com.example.tmsxmlproject.task_2.TaskTwoActivity
 
 class PostsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostsBinding
@@ -46,12 +45,12 @@ class PostsActivity : AppCompatActivity() {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
 
-        viewModel.shouldNavigateNext.observe(this, {
-            if (it) {
-                val intent = Intent(this, TaskTwoActivity::class.java)
-                startActivity(intent)
-            }
-        })
+//        viewModel.shouldNavigateNext.observe(this, {
+//            if (it) {
+//                val intent = Intent(this, TaskTwoActivity::class.java)
+//                startActivity(intent)
+//            }
+//        })
 
         binding.goToNextExample.setOnClickListener {
             viewModel.onGoToNextExampleClicked()

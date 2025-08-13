@@ -1,4 +1,4 @@
-package com.example.tmsxmlproject.networking.presentation
+package com.example.tmsxmlproject.networking.presentation.posts
 
 import android.view.LayoutInflater
 import android.view.View
