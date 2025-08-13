@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmsxmlproject.databinding.ActivityPostsBinding
 import com.example.tmsxmlproject.networking.data.PostRepositoryImpl
+import com.example.tmsxmlproject.networking.data.RetrofitInstance
 import com.example.tmsxmlproject.networking.domain.DeletePostByIdUseCase
 import com.example.tmsxmlproject.networking.domain.EditPostUseCase
 import com.example.tmsxmlproject.networking.domain.GetPostsUseCase
@@ -23,9 +24,9 @@ class PostsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = PostsViewModel(
-            getPostsUseCase = GetPostsUseCase(PostRepositoryImpl()),
-            deletePostByIdUseCase = DeletePostByIdUseCase(PostRepositoryImpl()),
-            editPostUseCase = EditPostUseCase(PostRepositoryImpl())
+            getPostsUseCase = GetPostsUseCase(PostRepositoryImpl(RetrofitInstance)),
+            deletePostByIdUseCase = DeletePostByIdUseCase(PostRepositoryImpl(RetrofitInstance)),
+            editPostUseCase = EditPostUseCase(PostRepositoryImpl(RetrofitInstance))
         )
 
         val postAdapter = PostsAdapter(

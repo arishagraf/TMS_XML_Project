@@ -8,6 +8,7 @@ import com.example.tmsxmlproject.networking.data.Post
 import com.example.tmsxmlproject.networking.domain.DeletePostByIdUseCase
 import com.example.tmsxmlproject.networking.domain.EditPostUseCase
 import com.example.tmsxmlproject.networking.domain.GetPostsUseCase
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class PostsViewModel(
@@ -26,8 +27,16 @@ class PostsViewModel(
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> get() = _msg
 
+    val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        println(throwable.message)
+    }
+
     init {
-        viewModelScope.launch {
+        getCurrentPosts()
+    }
+
+    private fun getCurrentPosts() {
+        viewModelScope.launch(coroutineExceptionHandler) {
             val posts = getPostsUseCase.invoke()
             posts?.let {
                 _posts.value = it
@@ -38,8 +47,9 @@ class PostsViewModel(
     }
 
     fun deletePost(id: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             val result = deletePostByIdUseCase.invoke(id)
+            getCurrentPosts()
             if (result) {
                 _msg.value = "deleted"
             } else {
@@ -48,9 +58,10 @@ class PostsViewModel(
         }
     }
 
-    fun editPost(editedPost: Post){
-        viewModelScope.launch {
+    fun editPost(editedPost: Post) {
+        viewModelScope.launch(coroutineExceptionHandler) {
             val updatedPost = editPostUseCase.invoke(editedPost)
+            getCurrentPosts()
             _msg.value = updatedPost.toString()
         }
     }
