@@ -48,6 +48,13 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    //gson
+    implementation("com.google.code.gson:gson:2.8.8")
+
+    //retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
     // viewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2")
 
@@ -56,14 +63,6 @@ dependencies {
 
     // Activity KTX (for by viewModels())
     implementation("androidx.activity:activity-ktx:1.10.1")
-
-    // Moxy
-    implementation("com.github.moxy-community:moxy:2.2.2")
-    implementation("com.github.moxy-community:moxy-android:2.2.2")
-    implementation("com.github.moxy-community:moxy-androidx:2.2.2")
-
-    // Moxy Kotlin extensions (if you're using Kotlin)
-    kapt("com.github.moxy-community:moxy-compiler:2.2.2")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,0 +1,60 @@
+package com.example.tmsxmlproject.networking.presentation
+
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tmsxmlproject.databinding.ActivityPostsBinding
+import com.example.tmsxmlproject.networking.data.PostRepositoryImpl
+import com.example.tmsxmlproject.networking.domain.DeletePostByIdUseCase
+import com.example.tmsxmlproject.networking.domain.EditPostUseCase
+import com.example.tmsxmlproject.networking.domain.GetPostsUseCase
+import com.example.tmsxmlproject.task_2.TaskTwoActivity
+
+class PostsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityPostsBinding
+    private lateinit var viewModel: PostsViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding = ActivityPostsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        viewModel = PostsViewModel(
+            getPostsUseCase = GetPostsUseCase(PostRepositoryImpl()),
+            deletePostByIdUseCase = DeletePostByIdUseCase(PostRepositoryImpl()),
+            editPostUseCase = EditPostUseCase(PostRepositoryImpl())
+        )
+
+        val postAdapter = PostsAdapter(
+            items = emptyList(),
+            removeAction = { id -> viewModel.deletePost(id) },
+            editAction = { editedPost -> viewModel.editPost(editedPost) }
+        )
+
+        binding.recyclerView.adapter = postAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        viewModel.posts.observe(this, { list ->
+            postAdapter.updateList(list)
+        })
+
+        viewModel.msg.observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.shouldNavigateNext.observe(this, {
+            if (it) {
+                val intent = Intent(this, TaskTwoActivity::class.java)
+                startActivity(intent)
+            }
+        })
+
+        binding.goToNextExample.setOnClickListener {
+            viewModel.onGoToNextExampleClicked()
+        }
+    }
+}
