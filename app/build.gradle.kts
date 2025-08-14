@@ -58,6 +58,10 @@ dependencies {
     //api logger
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
+    //glide - for images
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1")
+
     // viewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2")
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tmsxmlproject.R
 import com.example.tmsxmlproject.databinding.ItemPostBinding
 import com.example.tmsxmlproject.networking.data.Post
 
@@ -21,6 +22,14 @@ class PostsAdapter(
             removeAction: (String) -> Unit,
             editAction: (Post) -> Unit,
         ) {
+
+            //пример загрузки картинки с бекенда в наш вью
+//            Glide
+//                .with(binding.imageView.context)
+//                .load(item.thumbnailUrl)
+//                .placeholder(R.drawable.ic_placeholder)
+//                .into(binding.imageView)
+
             binding.itemTitle.text = item.title
             binding.itemDescription.text = item.body
             binding.deleteItem.setOnClickListener {
