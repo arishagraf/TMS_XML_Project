@@ -1,6 +1,8 @@
 package com.example.tmsxmlproject.networking.domain
 
-class DeletePostByIdUseCase(
+import javax.inject.Inject
+
+class DeletePostByIdUseCase @Inject constructor(
     private val postRepository: PostRepository,
 ) {
 

@@ -7,14 +7,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.tmsxmlproject.networking.data.Post
 import com.example.tmsxmlproject.networking.domain.DeletePostByIdUseCase
 import com.example.tmsxmlproject.networking.domain.EditPostUseCase
+import com.example.tmsxmlproject.networking.domain.GetEditedTitleListUseCase
 import com.example.tmsxmlproject.networking.domain.GetPostsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PostsViewModel(
+@HiltViewModel
+class PostsViewModel @Inject constructor(
     private val getPostsUseCase: GetPostsUseCase,
     private val deletePostByIdUseCase: DeletePostByIdUseCase,
     private val editPostUseCase: EditPostUseCase,
+    private val getEditedTitleListUseCase: GetEditedTitleListUseCase
 ) : ViewModel() {
 
     //post is not correct to use here!
@@ -33,6 +38,13 @@ class PostsViewModel(
 
     init {
         getCurrentPosts()
+    }
+
+    fun getLists(){
+        viewModelScope.launch {
+            val result = getEditedTitleListUseCase.invoke()
+            println("edited Titles: $result")
+        }
     }
 
     private fun getCurrentPosts() {

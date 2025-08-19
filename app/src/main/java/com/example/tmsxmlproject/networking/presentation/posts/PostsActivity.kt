@@ -1,21 +1,23 @@
 package com.example.tmsxmlproject.networking.presentation.posts
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmsxmlproject.databinding.ActivityPostsBinding
-import com.example.tmsxmlproject.networking.data.PostRepositoryImpl
-import com.example.tmsxmlproject.networking.data.RetrofitInstance
-import com.example.tmsxmlproject.networking.domain.DeletePostByIdUseCase
-import com.example.tmsxmlproject.networking.domain.EditPostUseCase
-import com.example.tmsxmlproject.networking.domain.GetPostsUseCase
+import com.example.tmsxmlproject.networking.domain.PostRepository
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PostsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostsBinding
-    private lateinit var viewModel: PostsViewModel
+    private val viewModel: PostsViewModel by viewModels()
+
+    @Inject
+    lateinit var postRepository: PostRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +25,9 @@ class PostsActivity : AppCompatActivity() {
         binding = ActivityPostsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = PostsViewModel(
-            getPostsUseCase = GetPostsUseCase(PostRepositoryImpl(RetrofitInstance)),
-            deletePostByIdUseCase = DeletePostByIdUseCase(PostRepositoryImpl(RetrofitInstance)),
-            editPostUseCase = EditPostUseCase(PostRepositoryImpl(RetrofitInstance))
-        )
+        println("hashcode is: ${postRepository.hashCode()}")
 
+        viewModel.getLists()
         val postAdapter = PostsAdapter(
             items = emptyList(),
             removeAction = { id -> viewModel.deletePost(id) },
