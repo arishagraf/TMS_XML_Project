@@ -1,6 +1,7 @@
 package com.example.tmsxmlproject.networking.di
 
 import com.example.tmsxmlproject.networking.data.ApiService
+import com.example.tmsxmlproject.networking.data.NbrbApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,6 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -46,7 +48,24 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    @Named("nbrb")
+    fun provideNbrbRetrofit(): Retrofit {
+        return Retrofit.Builder() //the baseUrl should end with /
+            .baseUrl("https://api.nbrb.by/exrates/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @Named("nbrb")
+    fun provideNbrbApiService(@Named("nbrb") retrofit: Retrofit): NbrbApiService {
+        return retrofit.create(NbrbApiService::class.java)
     }
 }

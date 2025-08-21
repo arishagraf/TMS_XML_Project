@@ -1,6 +1,8 @@
 package com.example.tmsxmlproject.networking.di
 
+import com.example.tmsxmlproject.networking.data.CurrencyRepositoryImpl
 import com.example.tmsxmlproject.networking.data.PostRepositoryImpl
+import com.example.tmsxmlproject.networking.domain.CurrencyRepository
 import com.example.tmsxmlproject.networking.domain.PostRepository
 import dagger.Binds
 import dagger.Module
@@ -17,6 +19,12 @@ abstract class DataModule {
     abstract fun bindPostRepository(
         postRepositoryImpl: PostRepositoryImpl
     ): PostRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCurrencyRepository(
+        currencyRepositoryImpl: CurrencyRepositoryImpl
+    ): CurrencyRepository
 
 //    @Provides
 //    //in non abstract class

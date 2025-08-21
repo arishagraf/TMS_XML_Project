@@ -53,6 +53,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51")
     kapt("com.google.dagger:hilt-android-compiler:2.51")
 
+    //leak canary
+    implementation("com.squareup.leakcanary:leakcanary-android:2.14")
+
     //gson
     implementation("com.google.code.gson:gson:2.8.8")
 

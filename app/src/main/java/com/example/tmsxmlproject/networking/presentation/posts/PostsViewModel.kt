@@ -1,9 +1,12 @@
 package com.example.tmsxmlproject.networking.presentation.posts
 
+import android.app.Activity
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tmsxmlproject.R
 import com.example.tmsxmlproject.networking.data.Post
 import com.example.tmsxmlproject.networking.domain.DeletePostByIdUseCase
 import com.example.tmsxmlproject.networking.domain.EditPostUseCase
@@ -26,6 +29,9 @@ class PostsViewModel @Inject constructor(
     private val _posts = MutableLiveData<List<Post>>(emptyList())
     val posts: LiveData<List<Post>> get() = _posts
 
+    private val _image = MutableLiveData<Drawable?>()
+    val imageLD: LiveData<Drawable?> get() = _image
+
     private val _shouldNavigateNext = MutableLiveData<Boolean>(false)
     val shouldNavigateNext: LiveData<Boolean> get() = _shouldNavigateNext
 
@@ -36,11 +42,22 @@ class PostsViewModel @Inject constructor(
         println(throwable.message)
     }
 
+    var activity2: Activity? = null
+
+    var wasAdded = false
+
     init {
         getCurrentPosts()
     }
 
-    fun getLists(){
+    fun getLists(activity: Activity?) {
+        //its very bad to use activity/context in viewModels! its just to test leakcanary
+        if (wasAdded.not()) {
+            activity2 = activity
+            wasAdded = true
+        }
+        val image = activity2?.getDrawable(R.drawable.outline_edit_24)
+        _image.value = image
         viewModelScope.launch {
             val result = getEditedTitleListUseCase.invoke()
             println("edited Titles: $result")
