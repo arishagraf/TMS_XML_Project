@@ -4,9 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tmsxmlproject.R
 import com.example.tmsxmlproject.databinding.ItemPostBinding
-import com.example.tmsxmlproject.networking.data.Post
+import com.example.tmsxmlproject.networking.data.posts.Post
 
 class PostsAdapter(
     private val items: List<Post>,

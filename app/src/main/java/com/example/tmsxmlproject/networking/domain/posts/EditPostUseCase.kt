@@ -1,6 +1,6 @@
-package com.example.tmsxmlproject.networking.domain
+package com.example.tmsxmlproject.networking.domain.posts
 
-import com.example.tmsxmlproject.networking.data.Post
+import com.example.tmsxmlproject.networking.data.posts.Post
 import javax.inject.Inject
 
 class EditPostUseCase @Inject constructor(

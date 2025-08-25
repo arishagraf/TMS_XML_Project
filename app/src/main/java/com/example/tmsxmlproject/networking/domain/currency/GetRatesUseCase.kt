@@ -1,6 +1,6 @@
-package com.example.tmsxmlproject.networking.domain
+package com.example.tmsxmlproject.networking.domain.currency
 
-import com.example.tmsxmlproject.networking.data.CurrencyModel
+import com.example.tmsxmlproject.networking.data.currency.CurrencyModel
 import javax.inject.Inject
 
 class GetRatesUseCase @Inject constructor(

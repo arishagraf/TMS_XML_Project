@@ -1,4 +1,4 @@
-package com.example.tmsxmlproject.networking.data
+package com.example.tmsxmlproject.networking.data.currency
 
 import retrofit2.http.GET
 import retrofit2.http.Query

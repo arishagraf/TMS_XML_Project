@@ -7,11 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tmsxmlproject.R
-import com.example.tmsxmlproject.networking.data.Post
-import com.example.tmsxmlproject.networking.domain.DeletePostByIdUseCase
-import com.example.tmsxmlproject.networking.domain.EditPostUseCase
-import com.example.tmsxmlproject.networking.domain.GetEditedTitleListUseCase
-import com.example.tmsxmlproject.networking.domain.GetPostsUseCase
+import com.example.tmsxmlproject.networking.data.posts.Post
+import com.example.tmsxmlproject.networking.domain.posts.DeletePostByIdUseCase
+import com.example.tmsxmlproject.networking.domain.posts.EditPostUseCase
+import com.example.tmsxmlproject.networking.domain.posts.GetEditedTitleListUseCase
+import com.example.tmsxmlproject.networking.domain.posts.GetPostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -42,22 +42,11 @@ class PostsViewModel @Inject constructor(
         println(throwable.message)
     }
 
-    var activity2: Activity? = null
-
-    var wasAdded = false
-
     init {
         getCurrentPosts()
     }
 
-    fun getLists(activity: Activity?) {
-        //its very bad to use activity/context in viewModels! its just to test leakcanary
-        if (wasAdded.not()) {
-            activity2 = activity
-            wasAdded = true
-        }
-        val image = activity2?.getDrawable(R.drawable.outline_edit_24)
-        _image.value = image
+    fun getLists() {
         viewModelScope.launch {
             val result = getEditedTitleListUseCase.invoke()
             println("edited Titles: $result")

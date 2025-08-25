@@ -9,14 +9,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmsxmlproject.databinding.ActivityPostsBinding
-import com.example.tmsxmlproject.networking.domain.PostRepository
+import com.example.tmsxmlproject.networking.domain.posts.PostRepository
 import com.example.tmsxmlproject.networking.presentation.currency.CurrencyActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-object LeakObject {
-    var activity: Activity? = null
-}
 
 @AndroidEntryPoint
 class PostsActivity : AppCompatActivity() {
@@ -32,20 +29,14 @@ class PostsActivity : AppCompatActivity() {
         binding = ActivityPostsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        LeakObject.activity = this
-
         println("hashcode is: ${postRepository.hashCode()}")
 
-        viewModel.getLists(LeakObject.activity)
+        viewModel.getLists()
         val postAdapter = PostsAdapter(
             items = emptyList(),
             removeAction = { id -> viewModel.deletePost(id) },
             editAction = { editedPost -> viewModel.editPost(editedPost) }
         )
-
-        viewModel.imageLD.observe(this, {
-            binding.imageview.setImageDrawable(it)
-        })
 
         binding.recyclerView.adapter = postAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)

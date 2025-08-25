@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmsxmlproject.databinding.ActivityCurrencyBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -21,9 +22,14 @@ class CurrencyActivity : AppCompatActivity() {
         binding = ActivityCurrencyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val currencyAdapter = CurrencyAdapter(items = emptyList())
+
+        binding.recyclerView.adapter = currencyAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
         lifecycleScope.launch {
             currencyViewModel.stateFlow.collect {
-                binding.textCurrencies.text = it.toString()
+                currencyAdapter.updateList(it ?: emptyList())
             }
         }
     }

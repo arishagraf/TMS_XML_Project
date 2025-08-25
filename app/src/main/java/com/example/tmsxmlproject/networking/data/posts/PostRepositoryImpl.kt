@@ -1,6 +1,6 @@
-package com.example.tmsxmlproject.networking.data
+package com.example.tmsxmlproject.networking.data.posts
 
-import com.example.tmsxmlproject.networking.domain.PostRepository
+import com.example.tmsxmlproject.networking.domain.posts.PostRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

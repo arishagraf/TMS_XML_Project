@@ -1,7 +1,7 @@
 package com.example.tmsxmlproject.networking.di
 
-import com.example.tmsxmlproject.networking.data.ApiService
-import com.example.tmsxmlproject.networking.data.NbrbApiService
+import com.example.tmsxmlproject.networking.data.posts.ApiService
+import com.example.tmsxmlproject.networking.data.currency.NbrbApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

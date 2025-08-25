@@ -79,6 +79,9 @@ dependencies {
     // Activity KTX (for by viewModels())
     implementation("androidx.activity:activity-ktx:1.10.1")
 
+    //Fragment
+    implementation(libs.fragmentByViewModels)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

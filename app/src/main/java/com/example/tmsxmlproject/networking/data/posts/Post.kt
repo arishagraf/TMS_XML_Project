@@ -1,4 +1,4 @@
-package com.example.tmsxmlproject.networking.data
+package com.example.tmsxmlproject.networking.data.posts
 
 data class Post(
     val userId: Int,

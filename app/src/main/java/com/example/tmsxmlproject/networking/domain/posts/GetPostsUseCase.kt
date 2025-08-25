@@ -1,4 +1,4 @@
-package com.example.tmsxmlproject.networking.domain
+package com.example.tmsxmlproject.networking.domain.posts
 
 import javax.inject.Inject
 

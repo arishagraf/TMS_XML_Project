@@ -1,4 +1,4 @@
-package com.example.tmsxmlproject.networking.data
+package com.example.tmsxmlproject.networking.data.posts
 
 import retrofit2.Response
 import retrofit2.http.Body

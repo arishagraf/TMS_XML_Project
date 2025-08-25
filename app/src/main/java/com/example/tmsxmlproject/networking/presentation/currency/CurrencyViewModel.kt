@@ -2,8 +2,8 @@ package com.example.tmsxmlproject.networking.presentation.currency
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tmsxmlproject.networking.data.CurrencyModel
-import com.example.tmsxmlproject.networking.domain.GetRatesUseCase
+import com.example.tmsxmlproject.networking.data.currency.CurrencyModel
+import com.example.tmsxmlproject.networking.domain.currency.GetRatesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
