@@ -2,11 +2,14 @@ package com.example.tmsxmlproject.networking.data.posts
 
 import com.example.tmsxmlproject.networking.domain.posts.PostRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
+    private val postsDAO: PostsDAO,
 ) : PostRepository {
 
     private var listOfEditedItems = mutableListOf<String>()
@@ -15,22 +18,43 @@ class PostRepositoryImpl @Inject constructor(
         return listOfEditedItems
     }
 
-
-    //we can use https://jsonplaceholder.typicode.com/posts - but it will not make real changes
-    //so we are going to create our own api - https://mockapi.io/
-
-    override suspend fun fetchPosts(): List<Post>? = withContext(Dispatchers.IO) {
+    override suspend fun fetchPosts(): Flow<List<Post>>? = withContext(Dispatchers.IO) {
         try {
-            apiService.fetchPosts()
+            if (postsDAO.getPostsSize() <= 0) {
+                val apiPosts = apiService.fetchPosts()
+                val postEntities = apiPosts?.map { apiPost ->
+                    PostEntity(
+                        id = apiPost.id,
+                        userId = apiPost.userId,
+                        title = apiPost.title,
+                        body = apiPost.body
+                    )
+                }
+                postEntities?.let {
+                    postsDAO.insertAll(postEntities)
+                }
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            null
+        }
+
+        val entities = postsDAO.getAllEntities()
+        entities.map { flowItem ->
+            flowItem.map { entity ->
+                Post(
+                    id = entity.id,
+                    userId = entity.userId,
+                    title = entity.title,
+                    body = entity.body
+                )
+            }
         }
     }
 
     override suspend fun deletePost(postId: String): Boolean = withContext(Dispatchers.IO) {
         try {
             val result = apiService.deletePost(postId)
+            postsDAO.deleteEntity(postId)
             result.isSuccessful
         } catch (e: Exception) {
             e.printStackTrace()
@@ -42,7 +66,16 @@ class PostRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             listOfEditedItems.add(updatedPost.title)
             try {
-                apiService.updatePost(postId, updatedPost)
+                val result = apiService.updatePost(postId, updatedPost)
+                postsDAO.updateEntity(
+                    PostEntity(
+                        id = updatedPost.id,
+                        userId = updatedPost.userId,
+                        title = updatedPost.title,
+                        body = updatedPost.body
+                    )
+                )
+                result
             } catch (e: Exception) {
                 e.printStackTrace()
                 null

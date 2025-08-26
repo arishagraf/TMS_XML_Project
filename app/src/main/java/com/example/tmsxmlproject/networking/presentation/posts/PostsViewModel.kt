@@ -1,12 +1,10 @@
 package com.example.tmsxmlproject.networking.presentation.posts
 
-import android.app.Activity
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tmsxmlproject.R
 import com.example.tmsxmlproject.networking.data.posts.Post
 import com.example.tmsxmlproject.networking.domain.posts.DeletePostByIdUseCase
 import com.example.tmsxmlproject.networking.domain.posts.EditPostUseCase
@@ -56,7 +54,7 @@ class PostsViewModel @Inject constructor(
     private fun getCurrentPosts() {
         viewModelScope.launch(coroutineExceptionHandler) {
             val posts = getPostsUseCase.invoke()
-            posts?.let {
+            posts?.collect {
                 _posts.value = it
             } ?: run {
                 _msg.value = "no posts found"
@@ -67,7 +65,6 @@ class PostsViewModel @Inject constructor(
     fun deletePost(id: String) {
         viewModelScope.launch(coroutineExceptionHandler) {
             val result = deletePostByIdUseCase.invoke(id)
-            getCurrentPosts()
             if (result) {
                 _msg.value = "deleted"
             } else {
@@ -79,7 +76,6 @@ class PostsViewModel @Inject constructor(
     fun editPost(editedPost: Post) {
         viewModelScope.launch(coroutineExceptionHandler) {
             val updatedPost = editPostUseCase.invoke(editedPost)
-            getCurrentPosts()
             _msg.value = updatedPost.toString()
         }
     }
