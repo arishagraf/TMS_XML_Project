@@ -52,9 +52,9 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deletePost(postId: String): Boolean = withContext(Dispatchers.IO) {
+        postsDAO.deleteEntity(postId)
         try {
             val result = apiService.deletePost(postId)
-            postsDAO.deleteEntity(postId)
             result.isSuccessful
         } catch (e: Exception) {
             e.printStackTrace()
@@ -65,16 +65,16 @@ class PostRepositoryImpl @Inject constructor(
     override suspend fun updatePost(postId: String, updatedPost: Post): Post? =
         withContext(Dispatchers.IO) {
             listOfEditedItems.add(updatedPost.title)
+            postsDAO.updateEntity(
+                PostEntity(
+                    id = updatedPost.id,
+                    userId = updatedPost.userId,
+                    title = updatedPost.title,
+                    body = updatedPost.body
+                )
+            )
             try {
                 val result = apiService.updatePost(postId, updatedPost)
-                postsDAO.updateEntity(
-                    PostEntity(
-                        id = updatedPost.id,
-                        userId = updatedPost.userId,
-                        title = updatedPost.title,
-                        body = updatedPost.body
-                    )
-                )
                 result
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -2,6 +2,8 @@ package com.example.tmsxmlproject.networking.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.tmsxmlproject.networking.data.AppDatabase
 import com.example.tmsxmlproject.networking.data.posts.PostsDAO
 import dagger.Module
@@ -20,11 +22,26 @@ class DatabaseModule {
             context.applicationContext,
             AppDatabase::class.java,
             "APP_DATABASE"
-        ).build()
+        )
+            .fallbackToDestructiveMigration() //not for usage in production
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .build()
     }
 
     @Provides
     fun providePostsDAO(appDatabase: AppDatabase): PostsDAO {
         return appDatabase.getPostsDAO()
+    }
+}
+
+val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE posts RENAME COLUMN title TO title2")
+    }
+}
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE posts RENAME COLUMN title2 TO title3")
     }
 }

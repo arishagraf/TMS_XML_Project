@@ -49,6 +49,9 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    //dataStore (sharedPrefs doesn't use deps)
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
+
     // room
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
