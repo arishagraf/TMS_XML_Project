@@ -1,6 +1,5 @@
 package com.example.tmsxmlproject.networking.presentation.posts
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -25,7 +24,6 @@ class PostsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityPostsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -56,8 +54,19 @@ class PostsActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.shouldNavigateAddScreen.observe(this, {
+            if (it) {
+                val intent = Intent(this, AddPostActivity::class.java)
+                startActivity(intent)
+            }
+        })
+
         binding.goToNextExample.setOnClickListener {
             viewModel.onGoToNextExampleClicked()
+        }
+
+        binding.btnAddPost.setOnClickListener {
+            viewModel.goToPostClicked()
         }
     }
 }

@@ -33,6 +33,9 @@ class PostsViewModel @Inject constructor(
     private val _shouldNavigateNext = MutableLiveData<Boolean>(false)
     val shouldNavigateNext: LiveData<Boolean> get() = _shouldNavigateNext
 
+    private val _shouldNavigateAddScreen = MutableLiveData<Boolean>(false)
+    val shouldNavigateAddScreen: LiveData<Boolean> get() = _shouldNavigateAddScreen
+
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> get() = _msg
 
@@ -82,5 +85,9 @@ class PostsViewModel @Inject constructor(
 
     fun onGoToNextExampleClicked() {
         _shouldNavigateNext.value = true
+    }
+
+    fun goToPostClicked() {
+        _shouldNavigateAddScreen.value = true
     }
 }
