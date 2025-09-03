@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tmsxmlproject.R
 import com.example.tmsxmlproject.networking.data.posts.Post
 import com.example.tmsxmlproject.networking.domain.posts.DeletePostByIdUseCase
 import com.example.tmsxmlproject.networking.domain.posts.EditPostUseCase
@@ -36,8 +37,8 @@ class PostsViewModel @Inject constructor(
     private val _shouldNavigateAddScreen = MutableLiveData<Boolean>(false)
     val shouldNavigateAddScreen: LiveData<Boolean> get() = _shouldNavigateAddScreen
 
-    private val _msg = MutableLiveData<String>()
-    val msg: LiveData<String> get() = _msg
+    private val _msg = MutableLiveData<Int>()
+    val msg: LiveData<Int> get() = _msg
 
     val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
         println(throwable.message)
@@ -60,7 +61,7 @@ class PostsViewModel @Inject constructor(
             posts?.collect {
                 _posts.value = it
             } ?: run {
-                _msg.value = "no posts found"
+                _msg.value = R.string.no_posts_found
             }
         }
     }
@@ -69,9 +70,9 @@ class PostsViewModel @Inject constructor(
         viewModelScope.launch(coroutineExceptionHandler) {
             val result = deletePostByIdUseCase.invoke(id)
             if (result) {
-                _msg.value = "deleted"
+                _msg.value = R.string.deleted
             } else {
-                _msg.value = "not deleted"
+                _msg.value = R.string.not_deleted
             }
         }
     }
@@ -79,7 +80,7 @@ class PostsViewModel @Inject constructor(
     fun editPost(editedPost: Post) {
         viewModelScope.launch(coroutineExceptionHandler) {
             val updatedPost = editPostUseCase.invoke(editedPost)
-            _msg.value = updatedPost.toString()
+            _msg.value = 0//updatedPost.toString()
         }
     }
 

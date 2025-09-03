@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">TMS XML Project</string>
+    <string name="app_name">TMS XML</string>
+    <string name="no_posts_found">no posts found</string>
+    <string name="deleted">deleted</string>
+    <string name="not_deleted">not deleted</string>
+    <string name="go_to_mvi">Go to MVI</string>
+    <string name="custom_button_click_text" translatable="false">Custom button clicked</string>
+    <string name="click_text">Click me</string>
+    <string name="custom_button_text">Custom button clicked</string>
+    <string name="add_post">Add Post</string>
+    <string name="enter_title">enter title</string>
+    <string name="enter_description">enter description</string>
+    <string name="save">Save</string>
 </resources>

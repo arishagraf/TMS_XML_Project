@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.tmsxmlproject.databinding.ActivityCurrencyBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -32,5 +33,10 @@ class CurrencyActivity : AppCompatActivity() {
                 currencyAdapter.updateList(it ?: emptyList())
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Animatoo.animateSpin(this)
     }
 }

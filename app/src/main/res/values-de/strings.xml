@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TMS XML</string>
+    <string name="no_posts_found">keine Post gefunden</string>
+    <string name="deleted">geloescht</string>
+    <string name="not_deleted">nicht geloescht</string>
+    <string name="go_to_mvi">Gehe zu MVI</string>
+    <string name="click_text">Druecke mich</string>
+    <string name="custom_button_text">Benutzerdefeniertes Knopf gedrueckt</string>
+    <string name="add_post">Post hinzufuegen</string>
+    <string name="enter_title">Titel eingeben</string>
+    <string name="enter_description">Beschreibung eingeben</string>
+    <string name="save">Speichern</string>
+</resources>

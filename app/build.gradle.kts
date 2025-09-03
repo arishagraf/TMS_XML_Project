@@ -49,6 +49,12 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    //activity animation
+    implementation("com.github.AtifSayings:Animatoo:1.0.1")
+
+    //lottie animation
+    implementation("com.airbnb.android:lottie-compose:6.5.0")
+
     //dataStore (sharedPrefs doesn't use deps)
     implementation("androidx.datastore:datastore-preferences:1.1.7")
 

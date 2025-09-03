@@ -5,5 +5,11 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="Theme.MyApp" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">#4287f5</item>
+        <item name="colorSecondary">#1d0fdb</item>
+        <item name="android:statusBarColor">#07612f</item>
+    </style>
+
     <style name="Theme.TMSXMLProject" parent="Base.Theme.TMSXMLProject" />
 </resources>

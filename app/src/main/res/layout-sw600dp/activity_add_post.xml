@@ -7,6 +7,33 @@
     android:layout_height="match_parent"
     tools:context=".networking.presentation.posts.AddPostActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fifty"
+        android:orientation="horizontal"
+        android:background="@color/purple_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/thirty"
+            android:layout_height="@dimen/thirty"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/sixteen"
+            android:id="@+id/btnGoBack"
+            android:src="@drawable/baby_child"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_post"
+            android:textSize="20sp"
+            android:layout_marginEnd="@dimen/fourtysix"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"/>
+
+    </LinearLayout>
+
     <EditText
         android:id="@+id/editTextAddTitle"
         android:layout_width="match_parent"
@@ -24,11 +51,11 @@
         android:id="@+id/editTextAddDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_bottom_background"
         android:layout_marginHorizontal="@dimen/sixteen"
-        android:padding="@dimen/sixteen"
-        android:layout_marginTop="@dimen/twelve"
+        android:layout_marginTop="332dp"
+        android:background="@drawable/edit_text_bottom_background"
         android:hint="@string/enter_description"
+        android:padding="@dimen/sixteen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextAddTitle" />
