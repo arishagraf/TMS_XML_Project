@@ -4,16 +4,22 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import com.example.tmsxmlproject.databinding.ActivityAddPostBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.tmsxmlproject.networking.App
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class AddPostActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var viewBinding: ActivityAddPostBinding
-    private val viewModel: AddPostViewModel by viewModels()
+    private val viewModel: AddPostViewModel by viewModels{viewModelFactory}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (this.application as App).provideAppComponent().inject(this)
         viewBinding = ActivityAddPostBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 

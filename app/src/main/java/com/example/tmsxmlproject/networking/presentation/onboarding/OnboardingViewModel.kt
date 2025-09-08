@@ -3,7 +3,6 @@ package com.example.tmsxmlproject.networking.presentation.onboarding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tmsxmlproject.networking.domain.onboarding.SetUserSawOnboardingUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val setUserSawOnboardingUseCase: SetUserSawOnboardingUseCase,
 ) : ViewModel(){

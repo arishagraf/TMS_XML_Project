@@ -3,27 +3,29 @@ package com.example.tmsxmlproject.networking.presentation.posts
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmsxmlproject.databinding.ActivityPostsBinding
+import com.example.tmsxmlproject.networking.App
 import com.example.tmsxmlproject.networking.domain.posts.PostRepository
 import com.example.tmsxmlproject.networking.presentation.currency.CurrencyActivity
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
-@AndroidEntryPoint
 class PostsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostsBinding
-    private val viewModel: PostsViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: PostsViewModel by viewModels{viewModelFactory}
 
     @Inject
     lateinit var postRepository: PostRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (this.application as App).provideAppComponent().inject(this)
         binding = ActivityPostsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

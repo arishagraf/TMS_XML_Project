@@ -10,12 +10,10 @@ import com.example.tmsxmlproject.networking.domain.posts.DeletePostByIdUseCase
 import com.example.tmsxmlproject.networking.domain.posts.EditPostUseCase
 import com.example.tmsxmlproject.networking.domain.posts.GetEditedTitleListUseCase
 import com.example.tmsxmlproject.networking.domain.posts.GetPostsUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class PostsViewModel @Inject constructor(
     private val getPostsUseCase: GetPostsUseCase,
     private val deletePostByIdUseCase: DeletePostByIdUseCase,

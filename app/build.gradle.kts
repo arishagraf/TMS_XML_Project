@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt") // to use kapt
-    id("dagger.hilt.android.plugin") //to use hilt
 }
 
 android {
@@ -49,6 +48,13 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    //dagger2
+    implementation("com.google.dagger:dagger:2.48.1")
+    implementation("com.google.dagger:dagger-android:2.48.1")
+    implementation("com.google.dagger:dagger-android-support:2.48.1")
+    kapt("com.google.dagger:dagger-compiler:2.48.1")
+    kapt("com.google.dagger:dagger-android-processor:2.48.1")
+
     //dataStore (sharedPrefs doesn't use deps)
     implementation("androidx.datastore:datastore-preferences:1.1.7")
 
@@ -56,10 +62,6 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-
-    //hilt
-    implementation("com.google.dagger:hilt-android:2.51")
-    kapt("com.google.dagger:hilt-android-compiler:2.51")
 
     //leak canary
     implementation("com.squareup.leakcanary:leakcanary-android:2.14")
