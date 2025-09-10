@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:name=".networking.App"
@@ -16,10 +20,7 @@
         android:theme="@style/Theme.TMSXMLProject"
         tools:targetApi="31">
         <activity
-            android:name=".networking.presentation.posts.AddPostActivity"
-            android:exported="false" />
-        <activity
-            android:name=".networking.presentation.main.MainActivity"
+            android:name=".networking.presentation.music.MusicActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +29,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".networking.presentation.posts.AddPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".networking.presentation.main.MainActivity"
+            android:exported="true" />
+        <activity
             android:name=".networking.presentation.currency.CurrencyActivity"
             android:exported="false" />
         <activity
@@ -35,6 +42,12 @@
             android:exported="true" />
         <activity
             android:name=".networking.presentation.onboarding.OnboardingActivity"
+            android:exported="true" />
+
+        <service
+            android:name=".networking.presentation.music.MusicService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaPlayback"
             android:exported="true" />
     </application>
 

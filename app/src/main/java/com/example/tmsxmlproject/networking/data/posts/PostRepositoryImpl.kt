@@ -1,5 +1,6 @@
 package com.example.tmsxmlproject.networking.data.posts
 
+import com.example.tmsxmlproject.networking.data.helper.InternetConnectionManager
 import com.example.tmsxmlproject.networking.domain.posts.PostRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -10,6 +11,7 @@ import javax.inject.Inject
 class PostRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val postsDAO: PostsDAO,
+    private val connectionManager: InternetConnectionManager,
 ) : PostRepository {
 
     private var listOfEditedItems = mutableListOf<String>()
@@ -21,41 +23,61 @@ class PostRepositoryImpl @Inject constructor(
     override suspend fun fetchPosts(): Flow<List<Post>>? = withContext(Dispatchers.IO) {
         try {
             if (postsDAO.getPostsSize() <= 0) {
-                val apiPosts = apiService.fetchPosts()
-                val postEntities = apiPosts?.map { apiPost ->
-                    PostEntity(
-                        id = apiPost.id,
-                        userId = apiPost.userId,
-                        title = apiPost.title,
-                        body = apiPost.body
-                    )
+                if (connectionManager.isOnline()) {
+                    val apiPosts = apiService.fetchPosts()
+                    val postEntities = apiPosts?.map { apiPost ->
+                        PostEntity(
+                            id = apiPost.id,
+                            userId = apiPost.userId,
+                            title = apiPost.title,
+                            body = apiPost.body
+                        )
+                    }
+                    postEntities?.let {
+                        postsDAO.insertAll(postEntities)
+                    }
+                    val entities = postsDAO.getAllEntities()
+                    entities.map { flowItem ->
+                        flowItem.map { entity ->
+                            Post(
+                                id = entity.id,
+                                userId = entity.userId,
+                                title = entity.title,
+                                body = entity.body
+                            )
+                        }
+                    }
+                } else {
+                    null
                 }
-                postEntities?.let {
-                    postsDAO.insertAll(postEntities)
+            } else {
+                val entities = postsDAO.getAllEntities()
+                entities.map { flowItem ->
+                    flowItem.map { entity ->
+                        Post(
+                            id = entity.id,
+                            userId = entity.userId,
+                            title = entity.title,
+                            body = entity.body
+                        )
+                    }
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-        }
-
-        val entities = postsDAO.getAllEntities()
-        entities.map { flowItem ->
-            flowItem.map { entity ->
-                Post(
-                    id = entity.id,
-                    userId = entity.userId,
-                    title = entity.title,
-                    body = entity.body
-                )
-            }
+            null
         }
     }
 
     override suspend fun deletePost(postId: String): Boolean = withContext(Dispatchers.IO) {
         postsDAO.deleteEntity(postId)
         try {
-            val result = apiService.deletePost(postId)
-            result.isSuccessful
+            if (connectionManager.isOnline()) {
+                val result = apiService.deletePost(postId)
+                result.isSuccessful
+            } else {
+                true
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             false
@@ -74,8 +96,12 @@ class PostRepositoryImpl @Inject constructor(
                 )
             )
             try {
-                val result = apiService.updatePost(postId, updatedPost)
-                result
+                if (connectionManager.isOnline()) {
+                    val result = apiService.updatePost(postId, updatedPost)
+                    result
+                } else {
+                    null
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
