@@ -1,10 +1,9 @@
 package com.example.tmsxmlproject.networking.data.posts
 
 import com.example.tmsxmlproject.networking.domain.posts.PostRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
@@ -14,15 +13,16 @@ class PostRepositoryImpl @Inject constructor(
 
     private var listOfEditedItems = mutableListOf<String>()
 
-    override suspend fun getList(): List<String> {
+    override fun getList(): List<String> {
         return listOfEditedItems
     }
 
-    override suspend fun fetchPosts(): Flow<List<Post>>? = withContext(Dispatchers.IO) {
-        try {
-            if (postsDAO.getPostsSize() <= 0) {
-                val apiPosts = apiService.fetchPosts()
-                val postEntities = apiPosts?.map { apiPost ->
+    override fun getPostsFromApiAndSaveInBD(): Single<List<PostEntity>> {
+        val apiPosts = apiService.fetchPosts()
+       return apiPosts
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.map { apiPost ->
                     PostEntity(
                         id = apiPost.id,
                         userId = apiPost.userId,
@@ -30,55 +30,50 @@ class PostRepositoryImpl @Inject constructor(
                         body = apiPost.body
                     )
                 }
-                postEntities?.let {
-                    postsDAO.insertAll(postEntities)
+            }.doOnSuccess { postEntities ->
+                postsDAO.insertAll(postEntities)
+            }
+    }
+
+    override fun getPostsFromDB(): Flowable<List<Post>> {
+        val entities = postsDAO.getAllEntities()
+        return entities
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.map { entity ->
+                    Post(
+                        id = entity.id,
+                        userId = entity.userId,
+                        title = entity.title,
+                        body = entity.body
+                    )
                 }
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        val entities = postsDAO.getAllEntities()
-        entities.map { flowItem ->
-            flowItem.map { entity ->
-                Post(
-                    id = entity.id,
-                    userId = entity.userId,
-                    title = entity.title,
-                    body = entity.body
-                )
-            }
-        }
     }
 
-    override suspend fun deletePost(postId: String): Boolean = withContext(Dispatchers.IO) {
-        postsDAO.deleteEntity(postId)
-        try {
-            val result = apiService.deletePost(postId)
-            result.isSuccessful
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
+    override fun deletePost(postId: String): Single<Boolean> {
+        val result = apiService.deletePost(postId)
+        return result
+            .subscribeOn(Schedulers.io())
+            .map { it.isSuccessful }
+            .doOnSuccess {
+                postsDAO.deleteEntity(postId)
+            }
     }
 
-    override suspend fun updatePost(postId: String, updatedPost: Post): Post? =
-        withContext(Dispatchers.IO) {
-            listOfEditedItems.add(updatedPost.title)
-            postsDAO.updateEntity(
-                PostEntity(
-                    id = updatedPost.id,
-                    userId = updatedPost.userId,
-                    title = updatedPost.title,
-                    body = updatedPost.body
+    override fun updatePost(postId: String, updatedPost: Post): Single<Post> {
+        val result = apiService.updatePost(postId, updatedPost)
+        return result
+            .subscribeOn(Schedulers.io())
+            .doOnSuccess {
+                postsDAO.updateEntity(
+                    PostEntity(
+                        id = updatedPost.id,
+                        userId = updatedPost.userId,
+                        title = updatedPost.title,
+                        body = updatedPost.body
+                    )
                 )
-            )
-            try {
-                val result = apiService.updatePost(postId, updatedPost)
-                result
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
             }
-        }
+    }
 }

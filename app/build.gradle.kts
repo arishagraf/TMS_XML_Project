@@ -49,6 +49,18 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    //rxJava
+    implementation("io.reactivex.rxjava3:rxjava:3.1.8")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("com.squareup.retrofit2:adapter-rxjava3:2.11.0")
+    implementation("androidx.room:room-rxjava3:2.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.7.3")
+
+    //workManager
+    implementation("androidx.hilt:hilt-work:1.3.0")
+    implementation("androidx.work:work-runtime-ktx:2.10.4")
+    kapt("androidx.hilt:hilt-compiler:1.3.0")
+
     //activity animation
     implementation("com.github.AtifSayings:Animatoo:1.0.1")
 

@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.tmsxmlproject.R
 import com.example.tmsxmlproject.networking.data.posts.Post
 import com.example.tmsxmlproject.networking.domain.posts.DeletePostByIdUseCase
@@ -12,8 +11,8 @@ import com.example.tmsxmlproject.networking.domain.posts.EditPostUseCase
 import com.example.tmsxmlproject.networking.domain.posts.GetEditedTitleListUseCase
 import com.example.tmsxmlproject.networking.domain.posts.GetPostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.launch
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,48 +39,45 @@ class PostsViewModel @Inject constructor(
     private val _msg = MutableLiveData<Int>()
     val msg: LiveData<Int> get() = _msg
 
-    val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
-        println(throwable.message)
-    }
+    private val compositeDisposable = CompositeDisposable()
 
     init {
         getCurrentPosts()
     }
 
     fun getLists() {
-        viewModelScope.launch {
-            val result = getEditedTitleListUseCase.invoke()
-            println("edited Titles: $result")
-        }
+        val result = getEditedTitleListUseCase.invoke()
+        println("edited Titles: $result")
     }
 
     private fun getCurrentPosts() {
-        viewModelScope.launch(coroutineExceptionHandler) {
-            val posts = getPostsUseCase.invoke()
-            posts?.collect {
-                _posts.value = it
-            } ?: run {
-                _msg.value = R.string.no_posts_found
-            }
-        }
+        val posts = getPostsUseCase.invoke()
+        val disposable = posts.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { _posts.value = it },
+                { _msg.value = R.string.no_posts_found },
+            )
+        compositeDisposable.add(disposable)
     }
 
     fun deletePost(id: String) {
-        viewModelScope.launch(coroutineExceptionHandler) {
-            val result = deletePostByIdUseCase.invoke(id)
-            if (result) {
-                _msg.value = R.string.deleted
-            } else {
+        val result = deletePostByIdUseCase.invoke(id)
+        val disposable = result.observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                if (it) {
+                    _msg.value = R.string.deleted
+                } else {
+                    _msg.value = R.string.not_deleted
+                }
+            }, {
                 _msg.value = R.string.not_deleted
-            }
-        }
+            })
+        compositeDisposable.add(disposable)
     }
 
     fun editPost(editedPost: Post) {
-        viewModelScope.launch(coroutineExceptionHandler) {
-            val updatedPost = editPostUseCase.invoke(editedPost)
-            _msg.value = 0//updatedPost.toString()
-        }
+//        val updatedPost = editPostUseCase.invoke(editedPost)
+//        _msg.value = 0//updatedPost.toString()
     }
 
     fun onGoToNextExampleClicked() {
@@ -90,5 +86,10 @@ class PostsViewModel @Inject constructor(
 
     fun goToPostClicked() {
         _shouldNavigateAddScreen.value = true
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }

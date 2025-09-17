@@ -8,7 +8,7 @@ class EditPostUseCase @Inject constructor(
     private val auto: Auto, // this is for test
 ) {
 
-    suspend operator fun invoke(editedPost: Post) = postRepository.updatePost(
+     operator fun invoke(editedPost: Post) = postRepository.updatePost(
         editedPost.id,
         editedPost
     )

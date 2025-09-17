@@ -6,5 +6,5 @@ class DeletePostByIdUseCase @Inject constructor(
     private val postRepository: PostRepository,
 ) {
 
-    suspend operator fun invoke(id: String) = postRepository.deletePost(id)
+     operator fun invoke(id: String) = postRepository.deletePost(id)
 }

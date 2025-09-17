@@ -6,5 +6,5 @@ class GetPostsUseCase @Inject constructor(
     private val postRepository: PostRepository,
 ) {
 
-    suspend operator fun invoke() = postRepository.fetchPosts()
+     operator fun invoke() = postRepository.getPostsFromDB()
 }

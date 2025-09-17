@@ -6,5 +6,5 @@ class GetEditedTitleListUseCase @Inject constructor(
     private val postRepository: PostRepository
 ) {
 
-    suspend operator fun invoke() = postRepository.getList()
+      operator fun invoke() = postRepository.getList()
 }
